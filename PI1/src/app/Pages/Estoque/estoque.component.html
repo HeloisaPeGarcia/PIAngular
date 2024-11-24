@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração - Gerenciamento de Carros</title>
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --secondary-color: #ffffff;
+            --tertiary-color: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .action-buttons {
+            margin: 20px 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #cc0000;
+        }
+
+        .car-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .car-list th, .car-list td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .car-list th {
+            background-color: var(--tertiary-color);
+            color: var(--secondary-color);
+        }
+
+        .car-list tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: var(--secondary-color);
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .btn-danger {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
+        .btn-edit {
+            background-color: var(--tertiary-color);
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Administração de Veículos</h1>
+    </header>
+
+    <div class="container">
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="openAddModal()">Adicionar Novo Carro</button>
+        </div>
+
+        <table class="car-list">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Modelo</th>
+                    <th>Marca</th>
+                    <th>Ano</th>
+                    <th>Preço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="carTableBody">
+                <!-- Dados serão inseridos via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Adicionar/Editar -->
+    <div id="carModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Adicionar Novo Carro</h2>
+            <form id="carForm">
+                <div class="form-group">
+                    <label for="carModel">Modelo:</label>
+                    <input type="text" id="carModel" required>
+                </div>
+                <div class="form-group">
+                    <label for="carEngine">Motor:</label>
+                    <input type="text" id="carEngine" required>
+                </div>
+                <div class="form-group">
+                    <label for="carPower">Potência (cavalos):</label>
+                    <input type="number" id="carPower" required>
+                </div>
+                <div class="form-group">
+                    <label for="carTorque">Torque (Nm):</label>
+                    <input type="number" id="carTorque" required>
+                </div>
+                <div class="form-group">
+                    <label for="cityConsumption">Consumo Cidade (km/l):</label>
+                    <input type="number" id="cityConsumption" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="highwayConsumption">Consumo Estrada (km/l):</label>
+                    <input type="number" id="highwayConsumption" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="accelerationTime">Tempo de Aceleração (segundos):</label>
+                    <input type="number" id="accelerationTime" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="carImage1">Imagem 1 (Frente):</label>
+                    <input type="file" id="carImage1" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="carImage2">Imagem 2 (Lado):</label>
+                    <input type="file" id="carImage2" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let cars = [
+            { id: 1, modelo: "Civic", marca: "Honda", ano: 2022, preco: 120000 },
+            { id: 2, modelo: "Corolla", marca: "Toyota", ano: 2021, preco: 115000 }
+        ];
+
+        function renderCars() {
+            const tableBody = document.getElementById('carTableBody');
+            tableBody.innerHTML = '';
+            
+            cars.forEach(car => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${car.id}</td>
+                    <td>${car.modelo}</td>
+                    <td>${car.marca}</td>
+                    <td>${car.ano}</td>
+                    <td>R$ ${car.preco.toFixed(2)}</td>
+                    <td class="action-cell">
+                        <button class="btn btn-edit" onclick="editCar(${car.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="deleteCar(${car.id})">Excluir</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'Adicionar Novo Carro';
+            document.getElementById('carForm').reset();
+            document.getElementById('carModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('carModal').style.display = 'none';
+        }
+
+        function editCar(id) {
+            const car = cars.find(c => c.id === id);
+            if (car) {
+                document.getElementById('modalTitle').textContent = 'Editar Carro';
+                document.getElementById('carModel').value = car.modelo;
+                document.getElementById('carEngine').value = car.motor;
+                document.getElementById('carPower').value = car.potencia;
+                document.getElementById('carTorque').value = car.torque;
+                document.getElementById('cityConsumption').value = car.consumo_cidade;
+                document.getElementById('highwayConsumption').value = car.consumo_estrada;
+                document.getElementById('accelerationTime').value = car.tempo_aceleracao;
+                document.getElementById('carImage1').value = car.imagem1;
+                document.getElementById('carImage2').value = car.imagem2;
+                document.getElementById('carForm').dataset.editId = id;
+                document.getElementById('carModal').style.display = 'block';
+            }
+        }
+
+        function deleteCar(id) {
+            if (confirm('Tem certeza que deseja excluir este carro?')) {
+                cars = cars.filter(car => car.id !== id);
+                renderCars();
+            }
+        }
+
+        document.getElementById('carForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                modelo: document.getElementById('carModel').value,
+                motor: document.getElementById('carEngine').value,
+                potencia: parseInt(document.getElementById('carPower').value),
+                torque: parseInt(document.getElementById('carTorque').value),
+                consumo_cidade: parseFloat(document.getElementById('cityConsumption').value),
+                consumo_estrada: parseFloat(document.getElementById('highwayConsumption').value),
+                tempo_aceleracao: parseFloat(document.getElementById('accelerationTime').value),
+                imagem1: document.getElementById('carImage1').files[0]?.name || '',
+                imagem2: document.getElementById('carImage2').files[0]?.name || ''
+            };
+
+            const editId = this.dataset.editId;
+            
+            if (editId) {
+                const index = cars.findIndex(car => car.id === parseInt(editId));
+                if (index !== -1) {
+                    cars[index] = { ...cars[index], ...formData };
+                }
+            } else {
+                const newId = Math.max(...cars.map(car => car.id), 0) + 1;
+                cars.push({ id: newId, ...formData });
+            }
+
+            closeModal();
+            renderCars();
+        });
+
+        renderCars();
+    </script>
+    <app-root></app-root>
+</body>
+</html>

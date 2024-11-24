@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carros de Luxo e Esportivos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #f11111;
+            --secondary: #000000;
+            --dark: #1a1a1a;
+            --light: #ffffff;
+        }
+
+        body {
+            background: var(--light);
+        }
+
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            padding: 1rem;
+            color: var(--light);
+            text-align: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--dark);
+        }
+
+        .nav-menu a {
+            color: var(--light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: background 0.3s;
+        }
+
+        .nav-menu a:hover {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        .hero-banner {
+            height: 60vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            text-align: center;
+        }
+
+        .search-section {
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+
+        .search-bar {
+            display: flex;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .search-bar button {
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .car-card {
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .car-info {
+            padding: 1rem;
+        }
+
+        .car-info button {
+            background: var(--primary);
+            color: var(--light);
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .car-info button:hover {
+            background: var(--dark);
+        }
+    </style>
+</head>
+<body>
+    <app-root>
+        
+    </app-root>
+    <header class="header">
+        <h1>Drivernext</h1>
+        <p>Sua concessionária premium de carros esportivos</p>
+    </header>
+    <nav class="nav-menu">
+        <a href="/inicio">Início</a>
+        <a href="/login">Login</a>
+        <a href="/contato">Contato</a>
+    </nav>
+    <section class="hero-banner">
+        <div>
+            <h2>Descubra o Poder e a Elegância</h2>
+            <p>Os melhores carros esportivos estão aqui</p>
+        </div>
+    </section>
+    <section class="search-section">
+        <div class="search-bar">
+            <input type="text" placeholder="Busque por marca, modelo ou ano...">
+            <button>Buscar</button>
+        </div>
+        <div class="filters">
+            <select class="filter-select">
+                <option value="">Marca</option>
+                <option>Ferrari</option>
+                <option>Porsche</option>
+                <option>Lamborghini</option>
+            </select>
+            <select class="filter-select">
+                <option value="">Ano</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+            </select>
+            <select class="filter-select">
+                <option value="">Preço</option>
+                <option>Até R$ 500.000</option>
+                <option>R$ 500.000 - R$ 1.000.000</option>
+                <option>Acima de R$ 1.000.000</option>
+            </select>
+        </div>
+    </section>
+    <main class="car-grid">
+        <div class="car-card">
+            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888" alt="Ferrari F8 Tributo vermelho" class="car-image">
+            <div class="car-info">
+                <h3>Ferrari F8 Tributo</h3>
+                <p>2023 | 720cv | 0-100km/h: 2.9s</p>
+                <p>R$ 3.950.000</p>
+                <button onclick="window.location.href='./app/Pages/Produtos/Produtos.html';">Ver Detalhes</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
