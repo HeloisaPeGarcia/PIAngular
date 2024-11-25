@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administração - Gerenciamento de Carros</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- Inclui jsPDF -->
     <style>
         :root {
             --primary-color: #810707;
@@ -213,6 +214,7 @@
 
                 <div class="btn">
                     <button type="submit">Salvar Carro</button>
+                    <button class="btn-export" onclick="exportTableToPDF()">Exportar para PDF</button>
                 </div>
             </form>
         </div>
@@ -231,6 +233,7 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
+               
                 <tbody id="carTableBody">
                     <!-- Dados serão inseridos via JavaScript -->
                 </tbody>
@@ -239,9 +242,26 @@
     </div>
 
     <script>
-        let cars = [];
+        function exportTableToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
 
-        // Função para renderizar os carros na tabela
+            // Seleciona a tabela
+            const table = document.getElementById('carTable');
+
+            // Cria a tabela no PDF
+            doc.autoTable({
+                html: table,
+                startY: 20, // Posição inicial da tabela no PDF
+                headStyles: { fillColor: '#252525' }, // Cor de fundo do cabeçalho
+                theme: 'grid', // Estilo da tabela (grid)
+            });
+
+            // Salva o PDF
+            doc.save('carros_estoque.pdf');
+        }
+         let cars = [];
+
         function renderCars() {
             const tableBody = document.getElementById('carTableBody');
             tableBody.innerHTML = '';
@@ -262,7 +282,6 @@
             });
         }
 
-        // Editar um carro
         function editCar(id) {
             const car = cars.find(car => car.id === id);
             if (car) {
@@ -276,18 +295,16 @@
                 document.getElementById('cityConsumption').value = car.consumoCidade;
                 document.getElementById('highwayConsumption').value = car.consumoEstrada;
                 document.getElementById('accelerationTime').value = car.aceleracao;
-                cars = cars.filter(c => c.id !== id); // Remove o carro para evitar duplicação
+                cars = cars.filter(c => c.id !== id);
                 renderCars();
             }
         }
 
-        // Deletar um carro
         function deleteCar(id) {
             cars = cars.filter(car => car.id !== id);
             renderCars();
         }
 
-        // Adicionar um novo carro
         document.getElementById('carForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
@@ -310,7 +327,6 @@
             document.getElementById('carForm').reset();
         });
 
-        // Inicializa a página com carros vazios
         renderCars();
     </script>
 </body>
