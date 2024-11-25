@@ -6,9 +6,13 @@
     <title>Administração - Gerenciamento de Carros</title>
     <style>
         :root {
-            --primary-color: #ff0000;
+            --primary-color: #810707;
             --secondary-color: #ffffff;
             --tertiary-color: #000000;
+            --form-bg-color: #171717;
+            --input-text-color: #d3d3d3;
+            --button-bg-color: #252525;
+            --button-hover-bg-color: black;
         }
 
         * {
@@ -19,7 +23,8 @@
         }
 
         body {
-            background-color: var(--secondary-color);
+            background-color: #252525;
+            font-size: 16px;
         }
 
         .header {
@@ -33,97 +38,124 @@
         .container {
             max-width: 1200px;
             margin: 20px auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
             padding: 0 20px;
         }
 
-        .action-buttons {
-            margin: 20px 0;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-        }
-
-        .btn-primary:hover {
-            background-color: #cc0000;
-        }
-
-        .car-list {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .car-list th, .car-list td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .car-list th {
-            background-color: var(--tertiary-color);
-            color: var(--secondary-color);
-        }
-
-        .car-list tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .action-cell {
-            display: flex;
-            gap: 10px;
-        }
-
         .stock-section {
+            flex: 1;
             margin-top: 40px;
-            padding: 20px;
-            background-color: var(--tertiary-color);
+            padding: 15px;
+            background-color: var(--form-bg-color);
             color: var(--secondary-color);
-            border-radius: 10px;
+            border-radius: 25px;
+            box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.3);
+            transition: .4s ease-in-out;
+        }
+
+        .stock-section:hover {
+            transform: scale(1.05);
+            border: 1px solid black;
         }
 
         .stock-header {
-            font-size: 24px;
+            font-size: 20px;
             margin-bottom: 15px;
-        }
-
-        .stock-form {
-            display: grid;
-            gap: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .btn-danger {
-            background-color: var(--primary-color);
+            text-align: center;
             color: var(--secondary-color);
         }
 
-        .btn-edit {
+        .stock-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+            padding: 0.4em;
+            border-radius: 25px;
+            background-color: var(--form-bg-color);
+            box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+        }
+
+        .form-group input {
+            background: none;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: var(--input-text-color);
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .form-group label {
+            color: var(--secondary-color);
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5em;
+        }
+
+        .btn button {
+            padding: 0.5em 1.5em;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            transition: .4s ease-in-out;
+            background-color: var(--button-bg-color);
+            color: var(--secondary-color);
+            margin-right: 0.5em;
+        }
+
+        .btn button:hover {
+            background-color: var(--button-hover-bg-color);
+            color: var(--secondary-color);
+        }
+
+        /* Tabela de listagem de carros */
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table th {
             background-color: var(--tertiary-color);
+            color: var(--secondary-color);
+        }
+
+        table td {
+            background-color: var(--form-bg-color);
+            color: var(--secondary-color);
+        }
+
+        .action-buttons button {
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            background-color: var(--button-bg-color);
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .action-buttons button:hover {
+            background-color: var(--button-hover-bg-color);
             color: var(--secondary-color);
         }
     </style>
@@ -179,26 +211,31 @@
                     <input type="text" id="accelerationTime" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Salvar Carro</button>
+                <div class="btn">
+                    <button type="submit">Salvar Carro</button>
+                </div>
             </form>
         </div>
 
         <!-- Tabela de carros -->
-        <table class="car-list">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Modelo</th>
-                    <th>Marca</th>
-                    <th>Ano</th>
-                    <th>Preço</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="carTableBody">
-                <!-- Dados serão inseridos via JavaScript -->
-            </tbody>
-        </table>
+        <div class="stock-section" style="flex: 2;">
+            <h2 class="stock-header">Carros no Estoque</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Modelo</th>
+                        <th>Marca</th>
+                        <th>Ano</th>
+                        <th>Preço</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="carTableBody">
+                    <!-- Dados serão inseridos via JavaScript -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
@@ -216,9 +253,9 @@
                     <td>${car.marca}</td>
                     <td>${car.ano}</td>
                     <td>R$ ${car.preco.toFixed(2)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-edit" onclick="editCar(${car.id})">Editar</button>
-                        <button class="btn btn-danger" onclick="deleteCar(${car.id})">Deletar</button>
+                    <td class="action-buttons">
+                        <button onclick="editCar(${car.id})">Editar</button>
+                        <button onclick="deleteCar(${car.id})">Deletar</button>
                     </td>
                 `;
                 tableBody.appendChild(row);
@@ -239,24 +276,26 @@
                 document.getElementById('cityConsumption').value = car.consumoCidade;
                 document.getElementById('highwayConsumption').value = car.consumoEstrada;
                 document.getElementById('accelerationTime').value = car.aceleracao;
+                cars = cars.filter(c => c.id !== id); // Remove o carro para evitar duplicação
+                renderCars();
             }
         }
 
-        // Excluir um carro
+        // Deletar um carro
         function deleteCar(id) {
             cars = cars.filter(car => car.id !== id);
             renderCars();
         }
 
-        // Adicionar carro
-        document.getElementById('carForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Adicionar um novo carro
+        document.getElementById('carForm').addEventListener('submit', function (event) {
+            event.preventDefault();
 
             const newCar = {
-                id: cars.length + 1,
+                id: Date.now(),
                 modelo: document.getElementById('carModel').value,
                 marca: document.getElementById('carBrand').value,
-                ano: parseInt(document.getElementById('carYear').value),
+                ano: document.getElementById('carYear').value,
                 preco: parseFloat(document.getElementById('carPrice').value),
                 motor: document.getElementById('carEngine').value,
                 potencia: document.getElementById('carPower').value,
@@ -266,11 +305,8 @@
                 aceleracao: document.getElementById('accelerationTime').value
             };
 
-            // Adiciona o carro na lista e renderiza a tabela
             cars.push(newCar);
             renderCars();
-
-            // Limpar o formulário
             document.getElementById('carForm').reset();
         });
 
